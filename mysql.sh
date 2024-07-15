@@ -37,5 +37,11 @@ VALIDATE $? "Enabling MySQL Server"
 systemctl start mysqld &>>$LOGFILE
 VALIDATE $? "Starting MySQL Server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
-VALIDATE $? "Setting up root password"
+output=$(mysql_secure_installation --set-root-pass ExpenseApp@1 2>&1)
+echo "$output" &>>$LOGS
+echo "$output" | grep -q "Password already set, You cannot reset the password with mysql_secure_installation"
+if [ $? -eq 0 ]; then
+    valid 1 "Setting up root password"
+else
+    valid 0 "Setting up root password"
+fi
