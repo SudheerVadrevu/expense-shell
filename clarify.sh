@@ -14,5 +14,5 @@ VALIDATE(){
     fi
 }
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 &>>$LOGFILE
+mysql_secure_installation --set-root-pass ExpenseApp@1 
 VALIDATE $? "Setting up root password"
